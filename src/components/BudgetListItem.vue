@@ -11,16 +11,36 @@
   <span class="value" :class="style">{{ item.value }}</span>
   <q-btn
     color="red"
-    @click="deleteItem(item.id)"
+    @click="confirm = true"
   >
     Delete
   </q-btn>
 </div>
+
+  <q-dialog v-model="confirm" persistent>
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+        <span class="q-ml-sm">Do you wanna delete?</span>
+      </q-card-section>
+
+      <q-card-actions align="right">
+        <q-btn flat label="Cancel" color="primary" v-close-popup />
+        <q-btn flat label="Yes" color="primary" v-close-popup @click="deleteItem(item.id)" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+
 </template>
 
 <script>
 export default {
   name: 'BudgetListItem',
+  data () {
+    return {
+      confirm: false
+    }
+  },
   props: {
     item: {
       type: Object,

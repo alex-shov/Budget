@@ -68,6 +68,7 @@ export default {
         id: uid()
       })
       this.onReset()
+      this.$refs.myForm.resetValidation()
     },
     onReset () {
       this.anyComing.type = 'INCOMING'

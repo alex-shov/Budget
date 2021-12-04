@@ -1,13 +1,30 @@
 <template>
   <div class="q-pa-md flex flex-center" >
-    <q-card class="my-card q-pa-lg" style="width: 500px" >
-      <q-card-section>
-        <div class="text-center text-weight-bold">Budget List</div>
+    <q-card class="my-card q-pa-md" style="width: 500px" >
+      <q-card-section class="q-pt-none">
+        <div class="text-h5 text-center q-mb-sm">Budget List</div>
+        <div class="flex justify-between">
+        <q-input
+          outlined
+          dense
+          v-model="inputValue"
+          label="Search"
+        >
+          <template v-slot:append>
+            <q-icon name="close" @click="inputValue = ''" class="cursor-pointer" />
+          </template>
+        </q-input>
+        <q-btn-group push>
+          <q-btn push :outline="filterType === 'all' ? true : false" label="All" @click="filterType = 'all'" />
+          <q-btn push :outline="filterType === 'in' ? true : false" icon="add_circle_outline" @click="filterType = 'in'" />
+          <q-btn push :outline="filterType === 'out' ? true : false" icon="remove_circle_outline" @click="filterType = 'out'" />
+        </q-btn-group>
+        </div>
       </q-card-section>
       <q-separator  />
-      <q-card-section v-if="allComing.length">
+      <q-card-section v-if="allComingFilter.length">
       <BudgetListItem
-        v-for="item in allComing"
+        v-for="item in allComingFilter"
         :key="item.id"
         :item="item"
         @deleteItem="deleteItem"
@@ -16,7 +33,7 @@
       <div
         v-else
         class="q-pa-md flex flex-center">
-        Список пуст
+        Empty List
       </div>
     </q-card>
 
@@ -31,6 +48,12 @@ export default {
   components: {
     BudgetListItem
   },
+  data () {
+    return {
+      filterType: 'all',
+      inputValue: ''
+    }
+  },
   props: {
     allComing: {
       type: Array,
@@ -40,6 +63,20 @@ export default {
   methods: {
     deleteItem (id) {
       this.$emit('deleteItem', id)
+    }
+
+  },
+  computed: {
+    allComingFilter () {
+      if (this.filterType === 'out') {
+        return this.allComing.filter(item => item.type === 'OUTCOMING')
+          .filter(i => i.comment.toLowerCase().includes(this.inputValue.toLowerCase()))
+      }
+      if (this.filterType === 'in') {
+        return this.allComing.filter(item => item.type === 'INCOMING')
+          .filter(i => i.comment.toLowerCase().includes(this.inputValue.toLowerCase()))
+      }
+      return this.allComing.filter(i => i.comment.toLowerCase().includes(this.inputValue.toLowerCase()))
     }
   }
 }
