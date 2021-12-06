@@ -37,7 +37,7 @@
           />
         </div>
         <div>
-          <q-btn dense label="Submit" type="submit" color="primary"/>
+          <q-btn dense label="Add" type="submit" color="primary"/>
           <q-btn dense label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
@@ -65,6 +65,7 @@ export default {
     onSubmit () {
       this.$emit('submit', {
         ...this.anyComing,
+        value: Number(this.anyComing.value),
         id: uid()
       })
       this.onReset()

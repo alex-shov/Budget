@@ -3,12 +3,22 @@
   <q-icon :name="icon" :class="style" class="q-mr-sm" />
   <span
     class="ellipsis"
-    style="max-width: 55%"
+    style="width: 55%"
   >
     {{ item.comment }}
+
+    <q-popup-edit :model-value="item.comment" auto-save v-slot="scope">
+        <q-input v-model="scope.value" dense autofocus @keyup.enter="scope.set"
+                 @update:model-value="editItem(scope.value, item.id)"/>
+      </q-popup-edit>
     <q-tooltip>{{ item.comment }}</q-tooltip>
   </span>
-  <span class="value" :class="style">{{ item.value }}</span>
+  <span class="value" style="display: inline-block" :class="style">{{ item.value }}
+  <q-popup-edit :model-value="item.value" auto-save v-slot="scope">
+    <q-input v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
+             @update:model-value="editValue(scope.value, item.id)"/>
+  </q-popup-edit>
+    </span>
   <q-btn
     color="red"
     @click="confirm = true"
@@ -58,6 +68,12 @@ export default {
   methods: {
     deleteItem (id) {
       this.$emit('deleteItem', id)
+    },
+    editItem (comment, id) {
+      this.$emit('editItem', { comment, id })
+    },
+    editValue (value, id) {
+      this.$emit('editValue', { value, id })
     }
   }
 }

@@ -15,9 +15,9 @@
           </template>
         </q-input>
         <q-btn-group push>
-          <q-btn push :outline="filterType === 'all' ? true : false" label="All" @click="filterType = 'all'" />
-          <q-btn push :outline="filterType === 'in' ? true : false" icon="add_circle_outline" @click="filterType = 'in'" />
-          <q-btn push :outline="filterType === 'out' ? true : false" icon="remove_circle_outline" @click="filterType = 'out'" />
+          <q-btn push :outline="filterType === 'all'" label="All" @click="filterType = 'all'" />
+          <q-btn push :outline="filterType === 'in'" icon="add_circle_outline" @click="filterType = 'in'" />
+          <q-btn push :outline="filterType === 'out'" icon="remove_circle_outline" @click="filterType = 'out'" />
         </q-btn-group>
         </div>
       </q-card-section>
@@ -28,6 +28,8 @@
         :key="item.id"
         :item="item"
         @deleteItem="deleteItem"
+        @editItem="editItem"
+        @editValue="editValue"
       />
         </q-card-section>
       <div
@@ -63,8 +65,13 @@ export default {
   methods: {
     deleteItem (id) {
       this.$emit('deleteItem', id)
+    },
+    editItem (props) {
+      this.$emit('editItem', props)
+    },
+    editValue (props) {
+      this.$emit('editValue', props)
     }
-
   },
   computed: {
     allComingFilter () {
@@ -83,8 +90,5 @@ export default {
 </script>
 
 <style scoped>
-.budget-list-wrap {
-  max-width: 500px;
-  margin: auto;
-}
+
 </style>
