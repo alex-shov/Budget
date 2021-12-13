@@ -7,8 +7,8 @@ export default createStore({
     error: false
   },
   mutations: {
-    SET_BALANCE (state, data) {
-      state.balance = data
+    SET_BALANCE (state, newBalance) {
+      state.balance = newBalance
     },
     SET_EXCHANGE_RATE (state, data) {
       state.exchangeRate = data

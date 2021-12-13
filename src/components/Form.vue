@@ -1,6 +1,6 @@
 <template>
-  <div class="q-pa-md flex flex-center" >
-    <q-card class="my-card q-pa-lg"  style="width: 500px" >
+  <div class="q-pa-md flex flex-center">
+    <q-card class="q-pa-lg"  style="width: 500px" >
       <q-form
         ref="myForm"
         @submit="onSubmit"
@@ -21,7 +21,7 @@
             v-model="anyComing.comment"
             label="Comment *"
             lazy-rules
-            :rules="[ val => val && val.length > 0 || 'Please type comment']"
+            :rules="[ val => val && val.trim() !== '' || 'Please type comment']"
           />
           <q-input
             outlined
@@ -65,7 +65,7 @@ export default {
     onSubmit () {
       this.$emit('submit', {
         ...this.anyComing,
-        value: Number(this.anyComing.value),
+        value: +this.anyComing.value, // Number(this.anyComing.value),
         id: uid()
       })
       this.onReset()

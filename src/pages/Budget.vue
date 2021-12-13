@@ -46,27 +46,26 @@ export default defineComponent({
   },
   methods: {
     onSubmit (data) {
-      this.allComing.push({ ...data })
-      if (this.allComing.length) {
-        const lastComing = this.allComing[this.allComing.length - 1]
-
-        if (lastComing.type === 'INCOMING') {
-          const newBalance = this.balance + lastComing.value
-          this.$store.commit('SET_BALANCE', newBalance)
-          // this.balance += +lastComing.value
-        } else {
-          const newBalance = this.balance - lastComing.value
-          this.$store.commit('SET_BALANCE', newBalance)
-        }
+      this.allComing.push(data)
+      // if (this.allComing.length) {
+      // const lastComing = this.allComing[this.allComing.length - 1]
+      if (data.type === 'INCOMING') {
+        const newBalance = this.balance + data.value
+        this.$store.commit('SET_BALANCE', newBalance)
+        // this.balance += +lastComing.value
+      } else {
+        const newBalance = this.balance - data.value
+        this.$store.commit('SET_BALANCE', newBalance)
       }
+      // }
     },
-    onDelete (id) {
+    onDelete ({ id, type, value }) {
       const index = this.allComing.findIndex(i => i.id === id)
-      if (this.allComing[index].type === 'INCOMING') {
-        const newBalance = this.balance - this.allComing[index].value
+      if (type === 'INCOMING') {
+        const newBalance = this.balance - value
         this.$store.commit('SET_BALANCE', newBalance)
       } else {
-        const newBalance = this.balance + this.allComing[index].value
+        const newBalance = this.balance + value
         this.$store.commit('SET_BALANCE', newBalance)
       }
       this.allComing.splice(index, 1)

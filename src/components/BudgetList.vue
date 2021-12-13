@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md flex flex-center" >
-    <q-card class="my-card q-pa-md" style="width: 500px" >
+    <q-card class="q-pa-md" style="width: 500px" >
       <q-card-section class="q-pt-none">
         <div class="text-h5 text-center q-mb-sm">Budget List</div>
         <div class="flex justify-between">
@@ -10,7 +10,7 @@
           v-model="inputValue"
           label="Search"
         >
-          <template v-slot:append>
+          <template v-slot:append v-if="inputValue">
             <q-icon name="close" @click="inputValue = ''" class="cursor-pointer" />
           </template>
         </q-input>
@@ -63,8 +63,8 @@ export default {
     }
   },
   methods: {
-    deleteItem (id) {
-      this.$emit('deleteItem', id)
+    deleteItem (props) {
+      this.$emit('deleteItem', props)
     },
     editItem (props) {
       this.$emit('editItem', props)

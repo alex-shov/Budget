@@ -13,7 +13,7 @@
       </q-popup-edit>
     <q-tooltip>{{ item.comment }}</q-tooltip>
   </span>
-  <span class="value" style="display: inline-block" :class="style">{{ item.value }}
+  <span class="value"  :class="style">{{ item.value }}
   <q-popup-edit :model-value="item.value" auto-save v-slot="scope">
     <q-input v-model.number="scope.value" dense autofocus @keyup.enter="scope.set"
              @update:model-value="editValue(scope.value, item.id)"/>
@@ -36,7 +36,7 @@
 
       <q-card-actions align="right">
         <q-btn flat label="Cancel" color="primary" v-close-popup />
-        <q-btn flat label="Yes" color="primary" v-close-popup @click="deleteItem(item.id)" />
+        <q-btn flat label="Yes" color="primary" v-close-popup @click="deleteItem(item.id, item.type, item.value)" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -66,8 +66,8 @@ export default {
     }
   },
   methods: {
-    deleteItem (id) {
-      this.$emit('deleteItem', id)
+    deleteItem (id, type, value) {
+      this.$emit('deleteItem', { id, type, value })
     },
     editItem (comment, id) {
       this.$emit('editItem', { comment, id })
