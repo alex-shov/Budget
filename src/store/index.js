@@ -1,4 +1,6 @@
 import { createStore } from 'vuex'
+import { Notify } from 'quasar'
+import axios from 'axios'
 
 export default createStore({
   state: {
@@ -6,6 +8,19 @@ export default createStore({
     allComing: [],
     exchangeRate: {},
     error: false
+  },
+  actions: {
+    getCurrentCurrency () {
+      axios.get('https://www.cbr-xml-daily.ru/daily_json.js').then(({ data }) => {
+        this.commit('SET_EXCHANGE_RATE', data.Valute)
+      }).catch(() => {
+        Notify.create({
+          message: 'Не получен с сервера список валют!',
+          type: 'negative',
+          timeout: 2000
+        })
+      })
+    }
   },
   mutations: {
     SET_COMING (state, data) {

@@ -10,7 +10,6 @@ import Form from 'components/Form'
 import Balance from 'components/Balance'
 import BudgetList from 'components/BudgetList'
 import { mapState, mapGetters } from 'vuex'
-import { Notify } from 'quasar'
 
 export default defineComponent({
   name: 'Budget',
@@ -20,20 +19,6 @@ export default defineComponent({
     BudgetList
   },
 
-  mounted () {
-    // Получаем курсы валют только при первом монтировании компонента
-    if (!this.getExchangeRate.length) {
-      this.$api.get().then(({ data }) => {
-        this.$store.commit('SET_EXCHANGE_RATE', data.Valute)
-      }).catch(() => {
-        Notify.create({
-          message: 'Не получен с сервера список валют!',
-          type: 'negative',
-          timeout: 2000
-        })
-      })
-    }
-  },
   computed: {
     ...mapState({
       balance: state => state.balance

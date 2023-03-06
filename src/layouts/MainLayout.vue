@@ -47,6 +47,8 @@
 
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
+import { onMounted, defineComponent, ref } from 'vue'
+import { useStore } from 'vuex'
 
 const linksList = [
   {
@@ -63,8 +65,6 @@ const linksList = [
   }
 ]
 
-import { defineComponent, ref } from 'vue'
-
 export default defineComponent({
   name: 'MainLayout',
 
@@ -74,6 +74,11 @@ export default defineComponent({
 
   setup () {
     const leftDrawerOpen = ref(false)
+    const store = useStore()
+
+    onMounted(async () => {
+      await store.dispatch('getCurrentCurrency')
+    })
 
     return {
       essentialLinks: linksList,
